@@ -29,6 +29,15 @@ Formålet er at designe og implementere et simpelt system til håndtering af piz
 - **Versionsstyring:** Git + GitHub
 
 ---
+
+## 👥 Team
+
+- Zander  - Developer, Product Owner. 
+- Oswald  - Developer, Scrum Master, Projektleder / mødekoordinator. 
+- Marcus  - Developer, GitHub-ansvarlig, Test- og dokumentationsansvarlig. 
+- Namirah - Developer, Kodeansvarlig. 
+
+---
 ## 🚀 Kørsel
 1. Klon repository:
    ```bash
