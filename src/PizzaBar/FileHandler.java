@@ -3,11 +3,11 @@ package PizzaBar;
 
 public class FileHandler {
     //TODO: variable fileName, should be added in the class these methods are called to
-    //TODO: create a FileHandler object in the logic class.
+    //TODO: create a FileHandler object in the logic class to run these methods.
 
     public void createFile(String filename){
         //TODO: create a new File object
-        // TODO: make a try catch for creating a new file
+        // TODO: make a try catch for creating a new csv file
     }
 
     public void writeFile(String filename) {
@@ -19,6 +19,6 @@ public class FileHandler {
         //TODO: make a new StringBuilder object
         //TODO: make a try catch with new File and Scanner objects.
         // remember to close scanner
-        return null; //TODO: return a toString of the StringBuilder object.
+        return null; //placeholder return.
     }
 }
