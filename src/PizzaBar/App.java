@@ -1,6 +1,6 @@
 package PizzaBar;
 
-public class AppTest {
+public class App {
     public static void main(String[] args) {
         //TODO: call methods
 
