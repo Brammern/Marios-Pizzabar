@@ -7,7 +7,7 @@ public class Pizza {
         //TODO: add attributes as parameters
         // add this.attributes
     }
-    //TODO: make getters and setters for attributes
+    //TODO: make getters and setters as necessary
     //TODO: make a toString()
     @Override
     public String toString(){
