@@ -32,8 +32,8 @@ public enum Pizza {
     SALAME("Salame", 78),
     FORMAGGIO_BIANCO("Formaggio Bianco", 87);
 
-    private String name;
-    private double basePrice;
+    private final String name;
+    private final double basePrice;
     Pizza(String name, double basePrice){
         this.name = name;
         this.basePrice = basePrice;
