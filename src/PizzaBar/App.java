@@ -4,7 +4,7 @@ public class App {
     public static void main(String[] args) {
         //TODO: call methods to run app
 
-        printMenu();
+        System.out.println(Pizza);
     }
 
     public static void printMenu(){
