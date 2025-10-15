@@ -13,9 +13,9 @@ public class App {
         o1.addLine(Pizza.PEPPERONI, Size.STANDARD, 1);
         o1.finish();
 
-        Order o2 = manager.createOrder("Brian", "69696969");
+        Order o2 = manager.createOrder("", "");
         o2.addLine(Pizza.BOLOGNESE, Size.STANDARD, 1);
-
+        o2.setPickupTimeInMinutes(20);
 
         manager.printOrders();
     }

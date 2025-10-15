@@ -24,7 +24,7 @@ public class Order {
         this.id = nextId;
         nextId++;
         this.customerName = (customerName == null || customerName.isBlank()) ? "Walk-in" : customerName.trim();
-        this.phone = phone;
+        this.phone = (phone == null || phone.isBlank()) ? "" : phone.trim();
         this.pickupTime = LocalDateTime.now();
         this.status = Status.ACTIVE;
     }
@@ -83,7 +83,7 @@ public class Order {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Ordre #").append(id).append(" (").append(customerName).append(")\n");
+        sb.append("Ordre #").append(id).append(" (").append(customerName).append(")").append(" tlf: ").append(phone).append("\n");
         for (OrderLine l : lines) sb.append("  - ").append(l).append("\n");
         sb.append(String.format("Total: %.2f kr%n", total()));
 
