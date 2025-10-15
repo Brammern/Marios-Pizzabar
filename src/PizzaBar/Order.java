@@ -9,8 +9,10 @@ import java.util.List;
 public class Order {
     //TODO: make order attributes
 
+    //Enum for order status
     public enum Status {ACTIVE, FINISHED, CANCELLED}
 
+    //Attributes for order
     private int id;
     private static int nextId = 1;
     private String customerName;
@@ -20,18 +22,16 @@ public class Order {
     private final List<OrderLine> lines = new ArrayList<>();
     private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
+    //Constructor
     public Order(String customerName, String phone){
         this.id = nextId;
         nextId++;
         this.customerName = (customerName == null || customerName.isBlank()) ? "Walk-in" : customerName.trim();
         this.phone = (phone == null || phone.isBlank()) ? "" : phone.trim();
-        this.pickupTime = LocalDateTime.now();
         this.status = Status.ACTIVE;
     }
-    // TODO: make getters and setters for attributes
 
     //Getters
-
     public int getId() {return id;}
     public String getCustomerName() {return customerName;}
     public LocalDateTime getPickupTime() {return pickupTime;}
@@ -47,7 +47,7 @@ public class Order {
     public void setPhone(String phone) {this.phone = phone;}
     public void setStatus(Status status) {this.status = status;}
 
-
+    //Method for adding lines to order
     public void addLine(Pizza pizza, Size size, int amount){
         if(amount <= 0)
             throw new IllegalArgumentException("Amount has to be > 0");
@@ -55,15 +55,7 @@ public class Order {
         lines.add(new OrderLine(pizza, size, price, amount));
     }
 
-    public void finish(){
-        if(lines.isEmpty()) throw new IllegalArgumentException("Cannot finish empty order");
-        status = Status.FINISHED;
-    }
-
-    public void cancel(){
-        this.status = Status.CANCELLED;
-    }
-
+    //Find the total cost of order
     public double total(){
         double sum = 0;
         for(OrderLine l : lines){
@@ -72,6 +64,7 @@ public class Order {
         return sum;
     }
 
+    //---Helper methods---
     public boolean hasPickupTime(){return pickupTime != null;}
 
     public long minutesToPickup(){
@@ -79,6 +72,17 @@ public class Order {
         return java.time.Duration.between(LocalDateTime.now(), pickupTime).toMinutes();
     }
 
+    //---Change of Status---
+    //Finish the order
+    public void finish(){
+        if(lines.isEmpty()) throw new IllegalArgumentException("Cannot finish empty order");
+        status = Status.FINISHED;
+    }
+
+    //Cancel the order
+    public void cancel(){
+        this.status = Status.CANCELLED;
+    }
 
     @Override
     public String toString(){
@@ -101,6 +105,7 @@ public class Order {
     }
 }
 
+//inner class for orderlines
 final class OrderLine{
     private final Pizza pizza;
     private final Size size;
