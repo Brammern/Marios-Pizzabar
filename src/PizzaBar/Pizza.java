@@ -59,7 +59,7 @@ public enum Pizza {
 
             String col1 = String.format("%2d %-18s %6.2f / %6.2f kr",
                     i + 1,
-                    p1.getName(),
+                    p1.name,
                     p1.getPrice(Size.STANDARD),
                     p1.getPrice(Size.FAMILY));
 
@@ -67,7 +67,7 @@ public enum Pizza {
             if(p2 != null){
                 col2 = String.format("      %2d %-18s %6.2f / %6.2f kr",
                         i + 2,
-                        p2.getName(),
+                        p2.name,
                         p2.getPrice(Size.STANDARD),
                         p2.getPrice(Size.FAMILY));
             }
@@ -77,6 +77,6 @@ public enum Pizza {
 
     @Override
     public String toString(){
-        return name + basePrice;
+        return name;
     }
 }
