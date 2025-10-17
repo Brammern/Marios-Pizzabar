@@ -1,4 +1,4 @@
-package PizzaBar;
+package PizzaBar.products;
 
 public class Pizza {
     //TODO: make attributes

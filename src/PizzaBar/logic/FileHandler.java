@@ -1,5 +1,7 @@
-package PizzaBar;
+package PizzaBar.logic;
 //TODO: import anything necessary
+import PizzaBar.logic.*;
+import PizzaBar.products.*;
 
 public class FileHandler {
     //TODO: variable fileName, should be added in the class these methods are called to
