@@ -86,6 +86,12 @@ public class OrderHelper {
             order.addLine(pizza, size, amount);
         }
 
+        System.out.print("When does the order have to get picked up (in minutes): ");
+        int minutes = scanner.nextInt();
+        scanner.nextLine();
+
+        order.setPickupTimeInMinutes(minutes);
+
     }
 
     private void showAllOrders(){

@@ -10,7 +10,7 @@ public class Order {
     //TODO: make order attributes
 
     //Enum for order status
-    public enum Status {ACTIVE, FINISHED, CANCELLED}
+    public enum Status {ACTIVE, READY_FOR_PICKUP, FINISHED,CANCELLED}
 
     //Attributes for order
     private int id;
@@ -73,6 +73,12 @@ public class Order {
     }
 
     //---Change of Status---
+    public void readyForPickup(){
+        if(lines.isEmpty()) throw new IllegalArgumentException("Cannot change empty order");
+        status = Status.READY_FOR_PICKUP;
+    }
+
+
     //Finish the order
     public void finish(){
         if(lines.isEmpty()) throw new IllegalArgumentException("Cannot finish empty order");
