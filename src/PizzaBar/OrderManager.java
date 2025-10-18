@@ -26,13 +26,23 @@ public class OrderManager {
                 return o;
             }
         }
-        return null;//placeholder return
+        return null;
     }
 
-    public void deleteOrder(){
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void deleteOrder(int id){
         //TODO: select an order by Id
         //TODO: remove the selected order from the list
         // use a try catch to validate if the selected order exists in the list
+        try{
+            Order o = findOrderById(id);
+            orders.remove(o);
+        } catch (IllegalArgumentException e){
+            System.out.println("No order found at id: " + id);
+        }
     }
 
     public void modifyOrder(){

@@ -45,6 +45,10 @@ public enum Pizza {
         return name;
     }
 
+    public double getBasePrice() {
+        return basePrice;
+    }
+
     public double getPrice(Size size){
         return basePrice * size.getPriceFactor();
     }
@@ -74,6 +78,14 @@ public enum Pizza {
             System.out.println(col1 + col2);
         }
     }
+
+    public static Pizza findByName(String name) {
+        for (Pizza p : values()) {
+            if (p.getName().equalsIgnoreCase((name))) return p;
+        }
+        return null;
+    }
+
 
     @Override
     public String toString(){

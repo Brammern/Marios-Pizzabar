@@ -1,6 +1,6 @@
 package PizzaBar;
 
-import javax.print.DocFlavor;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class Order {
     private String phone;
     private Status status;
     private final List<OrderLine> lines = new ArrayList<>();
-    private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     //Constructor
     public Order(String customerName, String phone){

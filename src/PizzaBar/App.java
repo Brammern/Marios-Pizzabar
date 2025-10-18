@@ -5,19 +5,12 @@ public class App {
         //TODO: call methods to run app
 
         Pizza.printMenu();
+        System.out.println();
 
         OrderManager manager = new OrderManager();
+        OrderHelper oh = new OrderHelper(manager);
 
-        Order o1 = manager.createOrder("Anders", "12345678");
-        o1.addLine(Pizza.BACON, Size.FAMILY, 2);
-        o1.addLine(Pizza.PEPPERONI, Size.STANDARD, 1);
-        o1.finish();
-
-        Order o2 = manager.createOrder("", "");
-        o2.addLine(Pizza.BOLOGNESE, Size.STANDARD, 1);
-        o2.setPickupTimeInMinutes(20);
-
-        manager.printOrders();
+        oh.run();
     }
 
 }
