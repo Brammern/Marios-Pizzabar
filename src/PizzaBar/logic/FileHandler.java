@@ -1,4 +1,4 @@
-package PizzaBar;
+package PizzaBar.logic;
 //TODO: import anything necessary
 
 public class FileHandler {

@@ -1,4 +1,4 @@
-package PizzaBar;
+package PizzaBar.products;
 
 public enum Size {
     STANDARD(1.0),

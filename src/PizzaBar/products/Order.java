@@ -1,4 +1,4 @@
-package PizzaBar;
+package PizzaBar.products;
 
 
 import java.time.LocalDateTime;

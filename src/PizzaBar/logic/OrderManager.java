@@ -1,4 +1,6 @@
-package PizzaBar;
+package PizzaBar.logic;
+
+import PizzaBar.products.Order;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,7 @@
-package PizzaBar;
+package PizzaBar.app;
+
+import PizzaBar.helpers.OrderHelper;
+import PizzaBar.logic.OrderManager;
 
 public class App {
     public static void main(String[] args) {

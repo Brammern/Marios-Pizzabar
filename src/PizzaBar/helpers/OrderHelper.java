@@ -1,4 +1,9 @@
-package PizzaBar;
+package PizzaBar.helpers;
+
+import PizzaBar.products.Order;
+import PizzaBar.logic.OrderManager;
+import PizzaBar.products.Pizza;
+import PizzaBar.products.Size;
 
 import java.util.Scanner;
 

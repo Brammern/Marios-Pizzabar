@@ -1,4 +1,4 @@
-package PizzaBar;
+package PizzaBar.products;
 
 public enum Pizza {
     MARGHERITA("Margherita", 65),
