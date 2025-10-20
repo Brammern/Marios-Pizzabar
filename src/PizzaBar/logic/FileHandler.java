@@ -1,5 +1,5 @@
 package PizzaBar.logic;
-//TODO: import anything necessary
+// import anything necessary
 import PizzaBar.logic.*;
 import PizzaBar.products.*;
 
@@ -38,15 +38,14 @@ public class FileHandler {
         //TODO: make a statement to add sold pizza orders to the file
         try {
             // Create a FileWriter (will create file if it does not exist)
-            FileWriter writer = new FileWriter(filename);
-            // Write some text to the file
-            //writer.write("Hello from Java!\n");
-
+            FileWriter writer = new FileWriter(filename, true);
+            // Append = true means new text will be added to the end of the file.
+            writer.write("\n");
 
             // Always close the writer to save changes
             writer.close();
 
-            System.out.println("File created and text written successfully!");
+            System.out.println("The pizza order has been added to the csv file.");
 
         } catch (IOException e) {
             System.out.println("⚠️ An error occurred: " + e.getMessage());
