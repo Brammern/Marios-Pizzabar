@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class FileHandler {
-    //TODO: variable fileName, should be added in the class these methods are called to
     //TODO: create a FileHandler object in the logic class to run these methods.
-
+    //class variable
+    private String fileName = "AllPizzasSold.csv";
         //method for creating new CSV file
     //parameter when calling this method should have the format: "SoldPizzas.csv"
     public void createFile(String filename){
@@ -34,13 +34,16 @@ public class FileHandler {
     }
         //method that writes to the file
     //use fileName variable as parameter when calling method
-    public void writeFile(String filename) {
+
+    public void writeToFile(String filename) {
         //TODO: make a statement to add sold pizza orders to the file
         try {
             // Create a FileWriter (will create file if it does not exist)
-            FileWriter writer = new FileWriter(filename, true);
             // Append = true means new text will be added to the end of the file.
+            FileWriter writer = new FileWriter(filename, true);
+
             writer.write("\n");
+            writer.write(Order.class.toString());
 
             // Always close the writer to save changes
             writer.close();
@@ -70,5 +73,9 @@ public class FileHandler {
             System.out.println("⚠️ File not found: " + e.getMessage());
         }
         return fileContent.toString();
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }
