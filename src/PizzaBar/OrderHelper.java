@@ -5,20 +5,23 @@ import java.util.Scanner;
 public class OrderHelper {
     //TODO: import scanner, and make a scanner for user input
     private final Scanner scanner = new Scanner(System.in);
-    private final OrderManager helper;
+    private final OrderManager manager;
 
-    OrderHelper(OrderManager helper){
-        this.helper = helper;
+    OrderHelper(OrderManager manager){
+        this.manager = manager;
     }
 
     public void run(){
         boolean run = true;
+        Pizza.printMenu();
+        System.out.println();
         while(run) {
             System.out.println("\n=== ORDER MENU ===");
             System.out.println("1. Create new order");
             System.out.println("2. Show all orders");
-            System.out.println("3. Mark order as ready");
-            System.out.println("4. Close program");
+            System.out.println("3. Change status of orders");
+            System.out.println("4. Delete order");
+            System.out.println("5. Close program");
             System.out.print("Choose: ");
 
             if(!scanner.hasNextInt()){
@@ -34,7 +37,8 @@ public class OrderHelper {
                 case 1 -> createOrder();
                 case 2 -> showAllOrders();
                 case 3 -> changeStatus();
-                case 4 -> {
+                case 4 -> deleteOrder();
+                case 5 -> {
                     System.out.println("Goodbye!");
                     run = false;
                 }
@@ -48,7 +52,7 @@ public class OrderHelper {
         String name = scanner.nextLine();
         System.out.print("Type in the customers phone number (leave blank for walk-in): ");
         String phone = scanner.nextLine();
-        Order order = helper.createOrder(name, phone);
+        Order order = manager.createOrder(name, phone);
 
         System.out.println("Add pizzas (type 0 to stop):");
 
@@ -99,16 +103,17 @@ public class OrderHelper {
         int id = scanner.nextInt();
         scanner.nextLine();
 
-        Order o = helper.findOrderById(id);
+        Order o = manager.findOrderById(id);
         if(o == null){
             System.out.println("No order with id " + id);
             return;
         }
         boolean running = true;
         while(running) {
+            System.out.println("==========================");
             System.out.println("Choose one of the following options:");
-            System.out.println("1. Mark as ready for pickup");
-            System.out.println("2. Mark order ad finished");
+            System.out.println("1. Mark order as ready for pickup");
+            System.out.println("2. Mark order as finished");
             System.out.println("3. Cancel order");
             System.out.println("4. Go back");
             System.out.print("Choice: ");
@@ -130,14 +135,14 @@ public class OrderHelper {
 
     private void showAllOrders(){
         System.out.println("\n=== ALL ORDERS ===");
-        for (Order o : helper.getOrders()){
+        for (Order o : manager.getOrders()){
             System.out.println(o);
             System.out.println("----------------------");
         }
     }
 
     private void markAsReady(int id){
-        Order o = helper.findOrderById(id);
+        Order o = manager.findOrderById(id);
         if(o == null){
             System.out.println("No order with id " + id);
             return;
@@ -148,7 +153,7 @@ public class OrderHelper {
     }
 
     private void markAsFinished(int id){
-        Order o = helper.findOrderById(id);
+        Order o = manager.findOrderById(id);
         if(o == null){
             System.out.println("No order with id " + id);
             return;
@@ -156,5 +161,14 @@ public class OrderHelper {
 
         o.finish();
         System.out.println("Order #" + id + " marked as finished :-)");
+    }
+
+    private void deleteOrder(){
+        System.out.println("Which order would you like to delete? (id)");
+        System.out.print("Choice: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        manager.deleteOrder(id);
     }
 }
