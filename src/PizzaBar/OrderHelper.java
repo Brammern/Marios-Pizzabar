@@ -33,7 +33,7 @@ public class OrderHelper {
             switch (choice){
                 case 1 -> createOrder();
                 case 2 -> showAllOrders();
-                case 3 -> markAsReady();
+                case 3 -> changeStatus();
                 case 4 -> {
                     System.out.println("Goodbye!");
                     run = false;
@@ -94,15 +94,7 @@ public class OrderHelper {
 
     }
 
-    private void showAllOrders(){
-        System.out.println("\n=== ALL ORDERS ===");
-        for (Order o : helper.getOrders()){
-            System.out.println(o);
-            System.out.println("----------------------");
-        }
-    }
-
-    private void markAsReady(){
+    private void changeStatus(){
         System.out.print("Input order-id: ");
         int id = scanner.nextInt();
         scanner.nextLine();
@@ -112,8 +104,57 @@ public class OrderHelper {
             System.out.println("No order with id " + id);
             return;
         }
+        boolean running = true;
+        while(running) {
+            System.out.println("Choose one of the following options:");
+            System.out.println("1. Mark as ready for pickup");
+            System.out.println("2. Mark order ad finished");
+            System.out.println("3. Cancel order");
+            System.out.println("4. Go back");
+            System.out.print("Choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice){
+                case 1 -> markAsReady(id);
+                case 2 -> markAsFinished(id);
+                case 3 -> {
+                    return;
+                }
+                case 4 -> running = false;
+                default -> System.out.println("Please enter a valid number");
+            }
+
+        }
+    }
+
+    private void showAllOrders(){
+        System.out.println("\n=== ALL ORDERS ===");
+        for (Order o : helper.getOrders()){
+            System.out.println(o);
+            System.out.println("----------------------");
+        }
+    }
+
+    private void markAsReady(int id){
+        Order o = helper.findOrderById(id);
+        if(o == null){
+            System.out.println("No order with id " + id);
+            return;
+        }
+
+        o.readyForPickup();
+        System.out.println("Order #" + id + " marked as ready for pickup :-)");
+    }
+
+    private void markAsFinished(int id){
+        Order o = helper.findOrderById(id);
+        if(o == null){
+            System.out.println("No order with id " + id);
+            return;
+        }
 
         o.finish();
-        System.out.println("Order #" + id + " marked as ready for pickup :-)");
+        System.out.println("Order #" + id + " marked as finished :-)");
     }
 }
