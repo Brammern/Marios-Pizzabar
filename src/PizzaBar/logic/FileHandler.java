@@ -1,26 +1,79 @@
 package PizzaBar.logic;
-//TODO: import anything necessary
+// import anything necessary
 import PizzaBar.logic.*;
 import PizzaBar.products.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class FileHandler {
-    //TODO: variable fileName, should be added in the class these methods are called to
-    //TODO: create a FileHandler object in the logic class to run these methods.
+    //class variable
+    private String fileName = "AllPizzasSold.csv";
 
-    public void createFile(String filename){
-        //TODO: create a new File object
-        // TODO: make a try catch for creating a new csv file
+    //method for creating new CSV file
+    public static void createFile(String filename){
+        //try catch to validate creating a new csv file
+        try {
+            File file = new File(filename); // Fil-objekt
+
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName());
+                System.out.println("Absolute path: " + file.getAbsolutePath());
+            } else {
+                System.out.println("File already exists at: " + file.getAbsolutePath());
+            }
+
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating the file.");
+            e.printStackTrace();
+        }
     }
 
-    public void writeFile(String filename) {
-        //TODO: add new FileWriter object. remember to close writer to save changes.
-        //TODO: make a try catch for writing to the file
+    //method that writes to the file
+    //use getFileName as parameter when calling method
+    public void writeToFile(String filename, String content) {
+        try {
+            // Create a FileWriter (will create file if it does not exist)
+            // Append = true means new text will be added to the end of the file.
+            FileWriter writer = new FileWriter(filename, true);
+
+            writer.write(content);
+
+            //close the writer to save changes
+            writer.close();
+
+            System.out.println("The pizza order has been added to the csv file.");
+
+        } catch (IOException e) {
+            System.out.println("⚠️ An error occurred: " + e.getMessage());
+        }
+    }
+        //method for reading the file in the console
+    //use getFileName as parameter when calling this method
+    public String readFileAsString(String filePath){
+        StringBuilder fileContent = new StringBuilder();
+
+        try {
+            File file = new File(filePath);
+            Scanner scanner = new Scanner(file);
+
+            // Reads the file line for line
+            while (scanner.hasNextLine()) {
+                fileContent.append(scanner.nextLine()).append("\n");
+            }
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("⚠️ File not found: " + e.getMessage());
+        }
+        return fileContent.toString();
     }
 
-    public String readFileAsString(){
-        //TODO: make a new StringBuilder object
-        //TODO: make a try catch with new File and Scanner objects.
-        // remember to close scanner
-        return null; //placeholder return.
+    //getter for class variable
+    public String getFileName() {
+        return fileName;
     }
 }

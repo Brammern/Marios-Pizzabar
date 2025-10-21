@@ -106,7 +106,7 @@ public class Order {
             sb.append("Pickup: not set\n");
         }
 
-        sb.append("Status: ").append(status);
+        sb.append("Status: ").append(status).append("\n");
         return sb.toString();
     }
 }

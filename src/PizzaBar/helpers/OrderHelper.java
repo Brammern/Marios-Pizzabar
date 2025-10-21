@@ -3,7 +3,7 @@ package PizzaBar.helpers;
 import PizzaBar.app.App;
 import PizzaBar.app.Application;
 import PizzaBar.products.Order;
-import PizzaBar.logic.OrderManager;
+import PizzaBar.logic.*;
 import PizzaBar.products.Pizza;
 import PizzaBar.products.Size;
 
@@ -111,6 +111,7 @@ public class OrderHelper {
         System.out.println("Order #" + id + " marked as ready for pickup :-)");
     }
 
+    FileHandler fh = new FileHandler();
     private void markAsFinished(int id){
         Order o = manager.findOrderById(id);
         if(o == null){
@@ -119,6 +120,7 @@ public class OrderHelper {
         }
 
         o.finish();
+        fh.writeToFile(fh.getFileName(), o.toString());
         System.out.println("Order #" + id + " marked as finished :-)");
     }
 

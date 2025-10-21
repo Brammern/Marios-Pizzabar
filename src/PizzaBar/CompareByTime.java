@@ -1,8 +1,13 @@
 package PizzaBar;
+
+import PizzaBar.products.Order;
 import java.util.Comparator;
 
-public class CompareByTime {
-    //TODO: implement Comparator<Order>
-    //TODO: make a compare() method to sort orders by pickupTime.
-    // TODO: !NEW! Maybe implement this in another helper/logic class?
+//use Comparator interface to compare orders by pickup time.
+public class CompareByTime implements Comparator<Order> {
+
+    @Override
+    public int compare(Order o1, Order o2){
+        return o1.getPickupTime().compareTo(o2.getPickupTime());
+    }
 }
