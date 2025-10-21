@@ -12,7 +12,7 @@ public class OrderHelper {
     private final Scanner scanner = new Scanner(System.in);
     private final OrderManager manager;
 
-    OrderHelper(OrderManager manager){
+    public OrderHelper(OrderManager manager){
         this.manager = manager;
     }
 
