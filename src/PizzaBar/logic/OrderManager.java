@@ -55,6 +55,7 @@ public class OrderManager {
     }
 
     public void printOrders(){
+        System.out.println("\n=== ALL ORDERS ===");
         for(Order o : orders){
             System.out.println(o);
             System.out.println("---------------------");
