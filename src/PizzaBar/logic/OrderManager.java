@@ -31,10 +31,6 @@ public class OrderManager {
         return null;
     }
 
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
-
     public void deleteOrder(int id){
         //TODO: select an order by Id
         //TODO: remove the selected order from the list
@@ -47,14 +43,8 @@ public class OrderManager {
         }
     }
 
-    public void modifyOrder(){
-        //TODO: select an order based on Id
-        // use a try catch to validate if the selected order exists in the list
-        //TODO: select an attribute to modify
-        //TODO: modify the order attribute
-    }
-
     public void printOrders(){
+        System.out.println("\n=== ALL ORDERS ===");
         for(Order o : orders){
             System.out.println(o);
             System.out.println("---------------------");

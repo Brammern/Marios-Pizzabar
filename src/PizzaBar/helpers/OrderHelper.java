@@ -8,7 +8,6 @@ import PizzaBar.products.Size;
 import java.util.Scanner;
 
 public class OrderHelper {
-    //TODO: import scanner, and make a scanner for user input
     private final Scanner scanner = new Scanner(System.in);
     private final OrderManager manager;
 
@@ -35,13 +34,12 @@ public class OrderHelper {
                 scanner.nextLine();
                 continue;
             }
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
+            int choice = readInt("");
+            System.out.println();
 
             switch (choice){
                 case 1 -> createOrder();
-                case 2 -> showAllOrders();
+                case 2 -> manager.printOrders();
                 case 3 -> changeStatus();
                 case 4 -> deleteOrder();
                 case 5 -> {
@@ -54,17 +52,15 @@ public class OrderHelper {
     }
 
     private void createOrder(){
-        System.out.print("Type in the customers name (leave blank for walk-in): ");
-        String name = scanner.nextLine();
-        System.out.print("Type in the customers phone number (leave blank for walk-in): ");
-        String phone = scanner.nextLine();
+        String name = readString("Type in the customers name (leave blank for walk-in): ");
+        String phone = readPhone("Type in the customers phone number (leave blank for walk-in): ");
+
         Order order = manager.createOrder(name, phone);
 
         System.out.println("Add pizzas (type 0 to stop):");
 
         while(true){
-            System.out.print("Pizza name: ");
-            String pizzaName = scanner.nextLine();
+            String pizzaName = readString("Pizza name: ");
             if(pizzaName.equals("0")) break;
 
 
@@ -75,18 +71,21 @@ public class OrderHelper {
             }
 
             System.out.print("Choose size (1=STANDARD, 2=FAMILYSIZE): ");
-            while(!scanner.hasNextInt()){
-                System.out.println("Please enter a number (1 or 2)");
-                scanner.nextLine();
-                System.out.print("Try again: ");
+            int sizeChoice = 0;
+            boolean valid = false;
+            while (!valid) {
+                sizeChoice = readInt("");
+                if (sizeChoice == 1 || sizeChoice == 2) {
+                    valid = true;
+                } else {
+                    System.out.print("Invalid size choice. Try again: ");
+                }
             }
-            int sizeChoice = scanner.nextInt();
-            scanner.nextLine();
             Size size = (sizeChoice == 2) ? Size.FAMILY : Size.STANDARD;
 
             System.out.print("Enter the desired amount of " + pizzaName + ": ");
-            int amount = scanner.nextInt();
-            scanner.nextLine();
+            int amount = readInt("");
+            //scanner.nextLine();
 
             if(amount <= 0){
                 System.out.println("Amount of pizzas can't be 0. Try again");
@@ -104,10 +103,9 @@ public class OrderHelper {
 
     }
 
+    // Changes the status of the order depending on the choice of the switch.
     private void changeStatus(){
-        System.out.print("Input order-id: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        int id = readInt("Input order-id: ");
 
         Order o = manager.findOrderById(id);
         if(o == null){
@@ -123,27 +121,16 @@ public class OrderHelper {
             System.out.println("3. Cancel order");
             System.out.println("4. Go back");
             System.out.print("Choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = readInt("");
+            System.out.println();
 
             switch (choice){
                 case 1 -> markAsReady(id);
                 case 2 -> markAsFinished(id);
-                case 3 -> {
-                    return;
-                }
+                case 3 -> cancelOrder(id);
                 case 4 -> running = false;
                 default -> System.out.println("Please enter a valid number");
             }
-
-        }
-    }
-
-    private void showAllOrders(){
-        System.out.println("\n=== ALL ORDERS ===");
-        for (Order o : manager.getOrders()){
-            System.out.println(o);
-            System.out.println("----------------------");
         }
     }
 
@@ -172,11 +159,53 @@ public class OrderHelper {
     }
 
     private void deleteOrder(){
-        System.out.println("Which order would you like to delete? (id)");
-        System.out.print("Choice: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
+        int id = readInt("Choose the order ID: ");
         manager.deleteOrder(id);
+        System.out.println("Order #" + id + " has been deleted successfully!");
+    }
+
+    private void cancelOrder(int id){
+        Order o = manager.findOrderById(id);
+        if(o == null){
+            System.out.println("No order with id " + id);
+            return;
+        }
+
+        o.cancel();
+        System.out.println("Order #" + id + " has been cancelled.");
+    }
+
+    // Validation methods
+
+    private String readString (String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
+    private int readInt (String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                return Integer.parseInt(scanner.nextLine());
+            }
+            catch (NumberFormatException e) {
+                System.out.print("Invalid input! Please enter a valid number. ");
+                System.out.println();
+            }
+        }
+    }
+
+    private String readPhone (String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+            if (input.matches("\\d{8}")) {
+                return input;
+            } else if (input.isEmpty()) {
+                return "WALK-IN";
+            } else {
+                System.out.println("Invalid phone number! Please enter an 8-digit phone number.");
+            }
+        }
     }
 }
