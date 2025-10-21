@@ -93,17 +93,17 @@ public class Order {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Ordre #").append(id).append(" (").append(customerName).append(")").append(" tlf: ").append(phone).append("\n");
+        sb.append("Order #").append(id).append(" (").append(customerName).append(")").append(" tlf: ").append(phone).append("\n");
         for (OrderLine l : lines) sb.append("  - ").append(l).append("\n");
         sb.append(String.format("Total: %.2f kr%n", total()));
 
         if (hasPickupTime()) {
-            sb.append("Afhentning: ").append(timeFormatter.format(pickupTime));
+            sb.append("Pickup: ").append(timeFormatter.format(pickupTime));
             long min = minutesToPickup();
-            if (min >= 0) sb.append(" (om ").append(min).append(" min)");
+            if (min >= 0) sb.append(" (in ").append(min).append(" min)");
             sb.append("\n");
         } else {
-            sb.append("Afhentning: ikke sat\n");
+            sb.append("Pickup: not set\n");
         }
 
         sb.append("Status: ").append(status);
