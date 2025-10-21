@@ -1,5 +1,7 @@
 package PizzaBar.helpers;
 
+import PizzaBar.app.App;
+import PizzaBar.app.Application;
 import PizzaBar.products.Order;
 import PizzaBar.logic.OrderManager;
 import PizzaBar.products.Pizza;
@@ -15,42 +17,7 @@ public class OrderHelper {
         this.manager = manager;
     }
 
-    public void run(){
-        boolean run = true;
-        Pizza.printMenu();
-        System.out.println();
-        while(run) {
-            System.out.println("\n=== ORDER MENU ===");
-            System.out.println("1. Create new order");
-            System.out.println("2. Show all orders");
-            System.out.println("3. Change status of orders");
-            System.out.println("4. Delete order");
-            System.out.println("5. Close program");
-            System.out.print("Choose: ");
-
-            if(!scanner.hasNextInt()){
-                System.out.println("Please enter a number.");
-                scanner.nextLine();
-                continue;
-            }
-            int choice = readInt("");
-            System.out.println();
-
-            switch (choice){
-                case 1 -> createOrder();
-                case 2 -> manager.printOrders();
-                case 3 -> changeStatus();
-                case 4 -> deleteOrder();
-                case 5 -> {
-                    System.out.println("Goodbye!");
-                    run = false;
-                }
-                default -> System.out.println("Invalid choice!");
-            }
-        }
-    }
-
-    private void createOrder(){
+    public void createOrder(){
         String name = readString("Type in the customers name (leave blank for walk-in): ");
         String phone = readPhone("Type in the customers phone number (leave blank for walk-in): ");
 
@@ -84,7 +51,6 @@ public class OrderHelper {
 
             System.out.print("Enter the desired amount of " + pizzaName + ": ");
             int amount = readInt("");
-            //scanner.nextLine();
 
             if(amount <= 0){
                 System.out.println("Amount of pizzas can't be 0. Try again");
@@ -102,7 +68,7 @@ public class OrderHelper {
     }
 
     // Changes the status of the order depending on the choice of the switch.
-    private void changeStatus(){
+    public void changeStatus(){
         int id = readInt("Input order-id: ");
 
         Order o = manager.findOrderById(id);
@@ -117,7 +83,8 @@ public class OrderHelper {
             System.out.println("1. Mark order as ready for pickup");
             System.out.println("2. Mark order as finished");
             System.out.println("3. Cancel order");
-            System.out.println("4. Go back");
+            System.out.println("4. DELETE order");
+            System.out.println("5. Go back");
             System.out.print("Choice: ");
             int choice = readInt("");
             System.out.println();
@@ -126,7 +93,8 @@ public class OrderHelper {
                 case 1 -> markAsReady(id);
                 case 2 -> markAsFinished(id);
                 case 3 -> cancelOrder(id);
-                case 4 -> running = false;
+                case 4 -> deleteOrder(id);
+                case 5 -> running = false;
                 default -> System.out.println("Please enter a valid number");
             }
         }
@@ -154,10 +122,15 @@ public class OrderHelper {
         System.out.println("Order #" + id + " marked as finished :-)");
     }
 
-    private void deleteOrder(){
-        int id = readInt("Choose the order ID: ");
-        manager.deleteOrder(id);
-        System.out.println("Order #" + id + " has been deleted successfully!");
+    private void deleteOrder(int id){
+        final Application app = new Application();
+        boolean realityCheck = realityCheck("Are you sure you want to delete the order: #" + id + "?");
+        if (realityCheck) {
+            Order o = manager.findOrderById(id);
+            manager.deleteOrder(id);
+            System.out.println("Order #" + id + " has been deleted successfully!");
+            app.run();
+        }
     }
 
     private void cancelOrder(int id){
@@ -173,12 +146,12 @@ public class OrderHelper {
 
     // Validation methods
 
-    private String readString (String prompt) {
+    public String readString (String prompt) {
         System.out.print(prompt);
         return scanner.nextLine();
     }
 
-    private int readInt (String prompt) {
+    public int readInt (String prompt) {
         while (true) {
             try {
                 System.out.print(prompt);
@@ -201,6 +174,21 @@ public class OrderHelper {
                 return "WALK-IN";
             } else {
                 System.out.println("Invalid phone number! Please enter an 8-digit phone number.");
+            }
+        }
+    }
+
+    public boolean realityCheck(String prompt) {
+        while (true) {
+            System.out.print(prompt + " (y/n)");
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
+                return true;
+            } else if (input.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) {
+                return false;
+            } else {
+                System.out.println("Invalid answer. Please only answer with yes or no");
             }
         }
     }
