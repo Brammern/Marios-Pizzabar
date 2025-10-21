@@ -18,6 +18,15 @@ public class OrderManager {
     public void getActiveOrders(){
         //TODO: sort the list of active orders by time
         //TODO: loop through and print the list of active orders
+        System.out.println("=== ACTIVE ORDERS ===");
+        for (Order o : orders){
+            if(o.getStatus().equals(Order.Status.ACTIVE)){
+                System.out.println(o);
+                System.out.println("--------------------");
+            } else {
+                System.out.println("No active orders at the moment.");
+            }
+        }
     }
 
     public Order findOrderById(int id){
