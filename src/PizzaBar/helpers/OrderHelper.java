@@ -166,7 +166,7 @@ public class OrderHelper {
         }
 
         o.finish();
-        fh.writeToFile(fh.getFileName());
+        fh.writeToFile(fh.getFileName(), o.toString());
         System.out.println("Order #" + id + " marked as finished :-)");
     }
 

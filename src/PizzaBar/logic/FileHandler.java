@@ -35,17 +35,16 @@ public class FileHandler {
         //method that writes to the file
     //use fileName variable as parameter when calling method
 
-    public void writeToFile(String filename) {
+    public void writeToFile(String filename, String content) {
         //TODO: make a statement to add sold pizza orders to the file
         try {
             // Create a FileWriter (will create file if it does not exist)
             // Append = true means new text will be added to the end of the file.
             FileWriter writer = new FileWriter(filename, true);
 
-            writer.write("\n");
-            writer.write(Order.class.toString());
+            writer.write(content);
 
-            // Always close the writer to save changes
+            //close the writer to save changes
             writer.close();
 
             System.out.println("The pizza order has been added to the csv file.");
