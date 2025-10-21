@@ -17,6 +17,7 @@ public class OrderHelper {
     }
 
     public void run(){
+        FileHandler.createFile(fh.getFileName());
         boolean run = true;
         Pizza.printMenu();
         System.out.println();

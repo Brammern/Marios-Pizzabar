@@ -15,7 +15,7 @@ public class FileHandler {
     private String fileName = "AllPizzasSold.csv";
         //method for creating new CSV file
     //parameter when calling this method should have the format: "SoldPizzas.csv"
-    public void createFile(String filename){
+    public static void createFile(String filename){
         //try catch to validate creating a new csv file
         try {
             File file = new File(filename); // Fil-objekt
