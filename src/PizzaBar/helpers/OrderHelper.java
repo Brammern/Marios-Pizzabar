@@ -8,7 +8,6 @@ import PizzaBar.products.Size;
 import java.util.Scanner;
 
 public class OrderHelper {
-    //TODO: import scanner, and make a scanner for user input
     private final Scanner scanner = new Scanner(System.in);
     private final OrderManager manager;
 
@@ -36,8 +35,6 @@ public class OrderHelper {
             }
             int choice = readInt("");
             System.out.println();
-            //scanner.nextLine();
-
 
             switch (choice){
                 case 1 -> createOrder();
@@ -104,6 +101,7 @@ public class OrderHelper {
 
     }
 
+    // Changes the status of the order depending on the choice of the switch.
     private void changeStatus(){
         int id = readInt("Input order-id: ");
 
@@ -131,7 +129,6 @@ public class OrderHelper {
                 case 4 -> running = false;
                 default -> System.out.println("Please enter a valid number");
             }
-
         }
     }
 
@@ -160,6 +157,7 @@ public class OrderHelper {
     private void deleteOrder(){
         int id = readInt("Choose the order ID: ");
         manager.deleteOrder(id);
+        System.out.println("Order #" + id + " has been deleted successfully!");
     }
 
     private void cancelOrder(int id){
