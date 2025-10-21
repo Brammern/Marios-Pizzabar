@@ -10,11 +10,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class FileHandler {
-    //TODO: create a FileHandler object in the logic class to run these methods.
     //class variable
     private String fileName = "AllPizzasSold.csv";
-        //method for creating new CSV file
-    //parameter when calling this method should have the format: "SoldPizzas.csv"
+
+    //method for creating new CSV file
     public static void createFile(String filename){
         //try catch to validate creating a new csv file
         try {
@@ -32,11 +31,10 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
-        //method that writes to the file
-    //use fileName variable as parameter when calling method
 
+    //method that writes to the file
+    //use getFileName as parameter when calling method
     public void writeToFile(String filename, String content) {
-        //TODO: make a statement to add sold pizza orders to the file
         try {
             // Create a FileWriter (will create file if it does not exist)
             // Append = true means new text will be added to the end of the file.
@@ -54,7 +52,7 @@ public class FileHandler {
         }
     }
         //method for reading the file in the console
-    //use the fileName variable as parameter when calling this method
+    //use getFileName as parameter when calling this method
     public String readFileAsString(String filePath){
         StringBuilder fileContent = new StringBuilder();
 
@@ -74,6 +72,7 @@ public class FileHandler {
         return fileContent.toString();
     }
 
+    //getter for class variable
     public String getFileName() {
         return fileName;
     }
