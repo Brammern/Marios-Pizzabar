@@ -20,7 +20,7 @@ public class OrderManager {
         //TODO: loop through and print the list of active orders
         System.out.println("=== ACTIVE ORDERS ===");
         for (Order o : orders){
-            if(o.getStatus().equals(Order.Status.ACTIVE)){
+            if(o.getStatus().equals(Order.Status.ACTIVE) || o.getStatus().equals(Order.Status.READY_FOR_PICKUP)){
                 System.out.println(o);
                 System.out.println("--------------------");
             } else {
