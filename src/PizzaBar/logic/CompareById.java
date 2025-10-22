@@ -1,8 +1,8 @@
-package PizzaBar;
+package PizzaBar.logic;
 
 import PizzaBar.products.Order;
-
 import java.util.Comparator;
+
 //Comparator is an interface and has to be in a class of its own.
 public class CompareById implements Comparator<Order> {
 
