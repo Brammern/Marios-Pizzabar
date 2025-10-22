@@ -1,12 +1,12 @@
 package PizzaBar.helpers;
 
-import PizzaBar.app.App;
 import PizzaBar.app.Application;
 import PizzaBar.products.Order;
 import PizzaBar.logic.*;
 import PizzaBar.products.Pizza;
 import PizzaBar.products.Size;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class OrderHelper {
@@ -60,8 +60,10 @@ public class OrderHelper {
                 order.addLine(pizza, size, amount);
             } else {
                 order.addLine(pizza, size, amount);
-                int minutes = readInt("When does the order have to get picked up (in minutes): ");
+                int minutes = readInt("When do you wish to pickup your order? (in minutes): ");
                 order.setPickupTimeInMinutes(minutes);
+                System.out.println("\nOrder #" + order.getId() + " has been crated successfully." +
+                        "\nYour order will be ready at: " + order.getPickupTime().format(Order.timeFormatter));
                 break;
             }
         }
