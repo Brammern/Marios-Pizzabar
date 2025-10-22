@@ -59,14 +59,16 @@ public class OrderHelper {
                 System.out.println("Amount of pizzas can't be 0. Try again");
                 continue;
             }
-            Order order = manager.createOrder(name, phone);
             boolean realityCheck = realityCheck("Do you want to add more pizzas to your order?");
             if (realityCheck) {
-                order.addLine(pizza, size, amount);
+                manager.createOrder(name, phone);
+                Order.addLine(pizza, size, amount);
             } else {
-                order.addLine(pizza, size, amount);
-                int minutes = readInt("When does the order have to get picked up (in minutes): ");
-                order.setPickupTimeInMinutes(minutes);
+                Order.addLine(pizza, size, amount);
+                int minutes = readInt("When do you wish to pickup your order? (in minutes): ");
+                Order.setPickupTimeInMinutes(minutes);
+                System.out.println("\nOrder #" + Order.getId() + " has been crated successfully." +
+                        "\nYour order will be ready at: " + Order.getPickupTime().format(Order.timeFormatter));
                 break;
             }
         }
