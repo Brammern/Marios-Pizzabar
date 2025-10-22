@@ -1,5 +1,8 @@
 package PizzaBar.products;
 
+/**
+ * Vores Pizza klasse som en enum. Har faste værdier på vores pizzaer som navn og basispris
+ */
 public enum Pizza {
     MARGHERITA("Margherita", 65),
     VESUVIO("Vesuvio", 70),
@@ -34,25 +37,27 @@ public enum Pizza {
 
     private final String name;
     private final double basePrice;
-    Pizza(String name, double basePrice){
+
+    //Constructor
+    Pizza(String name, double basePrice) {
         this.name = name;
         this.basePrice = basePrice;
     }
 
     //Getters
+    public String getName() {return name;}
+    public double getBasePrice() {return basePrice;}
 
-    public String getName() {
-        return name;
-    }
+    /**
+     * Finder prisen på en pizza ud fra hvilken størrelse pizzaen har
+     * @param size Skal bruge en Size parameter
+     * @return basePrice * size.getPriceFactor()
+     */
+    public double getPrice(Size size){return basePrice * size.getPriceFactor();}
 
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    public double getPrice(Size size){
-        return basePrice * size.getPriceFactor();
-    }
-
+    /**
+     * Metode til at printe et pænt pizza menukort skrevet i to kolonner.
+     */
     public static void printMenu(){
         System.out.println("=================================== Pizza Menukort ===================================\n");
         Pizza[] pizzas = Pizza.values();
@@ -79,6 +84,11 @@ public enum Pizza {
         }
     }
 
+    /**
+     * Finder en pizza i vores enum, ud fra et navn
+     * @param name Skal bruge en name parameter
+     * @return Pizza, hvis der findes en med det navn
+     */
     public static Pizza findByName(String name) {
         for (Pizza p : values()) {
             if (p.getName().equalsIgnoreCase((name))) return p;
@@ -86,7 +96,7 @@ public enum Pizza {
         return null;
     }
 
-
+    //toStirng, udskriver pizzaens navn.
     @Override
     public String toString(){
         return name;

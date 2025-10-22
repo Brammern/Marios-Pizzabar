@@ -5,11 +5,13 @@ import PizzaBar.helpers.*;
 import PizzaBar.products.*;
 
 public class Application {
-    // TODO: Implement the application flow here
-    // TODO: call methods to run app
     private final OrderManager manager = new OrderManager();
     private final OrderHelper helper = new OrderHelper(manager);
     FileHandler fh = new FileHandler();
+
+    /**
+     * Metode til at køre vores applikation. Kalder relevante metoder ved hjælp af en switch.
+     */
     public void run(){
         boolean run = true;
         FileHandler.createFile(fh.getSoldFile());
@@ -19,9 +21,10 @@ public class Application {
             System.out.println("\n=== ORDER MENU ===");
             System.out.println("1. Show menu");
             System.out.println("2. Create new order");
-            System.out.println("3. Show all orders");
-            System.out.println("4. Change status of an order");
-            System.out.println("5. Close program");
+            System.out.println("3. Show active orders");
+            System.out.println("4. Show all orders");
+            System.out.println("5. Change status of an order");
+            System.out.println("6. Close program");
             System.out.print("Choose: ");
 
             int choice = helper.readInt("");
@@ -30,9 +33,10 @@ public class Application {
             switch (choice){
                 case 1 -> Pizza.printMenu();
                 case 2 -> helper.createOrder();
-                case 3 -> manager.printOrders();
-                case 4 -> helper.changeStatus();
-                case 5 -> {
+                case 3 -> manager.getActiveOrders();
+                case 4 -> manager.printOrders();
+                case 5 -> helper.changeStatus();
+                case 6 -> {
                     System.out.println("Goodbye!");
                     run = false;
                 }
