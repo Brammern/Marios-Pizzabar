@@ -6,7 +6,6 @@ import PizzaBar.logic.*;
 import PizzaBar.products.Pizza;
 import PizzaBar.products.Size;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class OrderHelper {
@@ -54,16 +53,16 @@ public class OrderHelper {
                 System.out.println("Amount of pizzas can't be 0. Try again");
                 continue;
             }
-            Order order = manager.createOrder(name, phone);
             boolean realityCheck = realityCheck("Do you want to add more pizzas to your order?");
             if (realityCheck) {
-                order.addLine(pizza, size, amount);
+                manager.createOrder(name, phone);
+                Order.addLine(pizza, size, amount);
             } else {
-                order.addLine(pizza, size, amount);
+                Order.addLine(pizza, size, amount);
                 int minutes = readInt("When do you wish to pickup your order? (in minutes): ");
-                order.setPickupTimeInMinutes(minutes);
-                System.out.println("\nOrder #" + order.getId() + " has been crated successfully." +
-                        "\nYour order will be ready at: " + order.getPickupTime().format(Order.timeFormatter));
+                Order.setPickupTimeInMinutes(minutes);
+                System.out.println("\nOrder #" + Order.getId() + " has been crated successfully." +
+                        "\nYour order will be ready at: " + Order.getPickupTime().format(Order.timeFormatter));
                 break;
             }
         }

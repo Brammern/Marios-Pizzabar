@@ -13,14 +13,14 @@ public class Order {
     public enum Status {ACTIVE, READY_FOR_PICKUP, FINISHED,CANCELLED}
 
     //Attributes for order
-    private int id;
+    private static int id;
     private static int nextId = 1;
     private String customerName;
-    private LocalDateTime pickupTime;
+    private static LocalDateTime pickupTime;
     private String phone;
     private Status status;
-    private final List<OrderLine> lines = new ArrayList<>();
-    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private static final List<OrderLine> lines = new ArrayList<>();
+    public static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     //Constructor
     public Order(String customerName, String phone){
@@ -32,9 +32,9 @@ public class Order {
     }
 
     //Getters
-    public int getId() {return id;}
+    public static int getId() {return id;}
     public String getCustomerName() {return customerName;}
-    public LocalDateTime getPickupTime() {return pickupTime;}
+    public static LocalDateTime getPickupTime() {return pickupTime;}
     public String getPhone() {return phone;}
     public Status getStatus() {return status;}
     public List<OrderLine> getLines() {return lines;}
@@ -42,13 +42,13 @@ public class Order {
     //setters
     public void setId(int id) {this.id = id;}
     public void setCustomerName(String customerName) {this.customerName = customerName;}
-    public void setPickupTime(LocalDateTime pickupTime) {this.pickupTime = pickupTime;}
-    public void setPickupTimeInMinutes(int minutes) {this.pickupTime = LocalDateTime.now().plusMinutes(minutes);}
+    //public void setPickupTime(LocalDateTime pickupTime) {this.pickupTime = pickupTime;}
+    public static void setPickupTimeInMinutes(int minutes) {pickupTime = LocalDateTime.now().plusMinutes(minutes);}
     public void setPhone(String phone) {this.phone = phone;}
     public void setStatus(Status status) {this.status = status;}
 
     //Method for adding lines to order
-    public void addLine(Pizza pizza, Size size, int amount){
+    public static void addLine(Pizza pizza, Size size, int amount){
         if(amount <= 0)
             throw new IllegalArgumentException("Amount has to be > 0");
         double price = pizza.getPrice(size);
@@ -143,6 +143,6 @@ final class OrderLine{
 
     @Override
     public String toString(){
-        return amount + "x " + pizza.getName() + " á " + price + " kr = " + lineTotal() + " kr";
+        return amount + "x " + pizza.getName() + " of " + price + " kr = " + lineTotal() + " kr";
     }
 }
