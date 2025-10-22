@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    //TODO: make order attributes
-
-    //Enum for order status
+    //Enum til Order Status
     public enum Status {ACTIVE, READY_FOR_PICKUP, FINISHED,CANCELLED}
 
     //Attributes for order
@@ -25,7 +23,7 @@ public class Order {
     //Constructor
     public Order(String customerName, String phone){
         this.id = nextId;
-        nextId++;
+        nextId++; //Lægger 1 til nextId for at næste ordre for et nyt id
         this.customerName = (customerName == null || customerName.isBlank()) ? "Walk-in" : customerName.trim();
         this.phone = (phone == null || phone.isBlank()) ? "" : phone.trim();
         this.status = Status.ACTIVE;
@@ -39,7 +37,7 @@ public class Order {
     public Status getStatus() {return status;}
     public List<OrderLine> getLines() {return lines;}
 
-    //setters
+    //Setters
     public void setId(int id) {this.id = id;}
     public void setCustomerName(String customerName) {this.customerName = customerName;}
     //public void setPickupTime(LocalDateTime pickupTime) {this.pickupTime = pickupTime;}
@@ -47,15 +45,23 @@ public class Order {
     public void setPhone(String phone) {this.phone = phone;}
     public void setStatus(Status status) {this.status = status;}
 
-    //Method for adding lines to order
-    public static void addLine(Pizza pizza, Size size, int amount){
+    /**
+     * Metode til at tilføje en linje til vores ordre ved hjælp af vores indre klasse OrderLine
+     * @param pizza Skal bruge en pizza til vores linje
+     * @param size Skal bruge en størrelse på pizzaen
+     * @param amount Skal bruge et ønsket antal af pizzaer.
+     */
+    public void addLine(Pizza pizza, Size size, int amount){
         if(amount <= 0)
             throw new IllegalArgumentException("Amount has to be > 0");
         double price = pizza.getPrice(size);
         lines.add(new OrderLine(pizza, size, price, amount));
     }
 
-    //Find the total cost of order
+    /**
+     * Looper igennen alle linjer i en ordre for at få en total pris
+     * @return sum af alle linjer i en ordre
+     */
     public double total(){
         double sum = 0;
         for(OrderLine l : lines){
@@ -64,32 +70,52 @@ public class Order {
         return sum;
     }
 
-    //---Helper methods---
+    //=== HJÆLPE METODER ===
+
+    /**
+     * Tjekker om en ordre har en afhæntningstid.
+     * @return pickupTime eller null
+     */
     public boolean hasPickupTime(){return pickupTime != null;}
 
+    /**
+     * Regner ud hvor mange minutter der er til afhæntning af en ordre
+     * @return java.time.Duration.between(LocalDateTime.now(), pickupTime).toMinutes() eller -1
+     */
     public long minutesToPickup(){
         if(!hasPickupTime()) return -1;
         return java.time.Duration.between(LocalDateTime.now(), pickupTime).toMinutes();
     }
 
-    //---Change of Status---
+    //=== ÆNDRE STATUS ===
+
+    /**
+     * Sætter ordrestatus til READY_FOR_PICKUP
+     */
     public void readyForPickup(){
         if(lines.isEmpty()) throw new IllegalArgumentException("Cannot change empty order");
         status = Status.READY_FOR_PICKUP;
     }
 
-
-    //Finish the order
+    /**
+     * Sætter ordrestatus til FINISHED
+     */
     public void finish(){
         if(lines.isEmpty()) throw new IllegalArgumentException("Cannot finish empty order");
         status = Status.FINISHED;
     }
 
-    //Cancel the order
+    /**
+     * Sætter ordrestatus til CANCELLED
+     */
     public void cancel(){
         this.status = Status.CANCELLED;
     }
 
+    /**
+     * Bruger en StringBuilder til at lave en pæn format til vores ordre
+     * @return sb.toString
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -111,13 +137,22 @@ public class Order {
     }
 }
 
-//inner class for orderlines
+/**
+ * Indre klasse til linjer i en ordre
+ */
 final class OrderLine{
     private final Pizza pizza;
     private final Size size;
     private final double price;
     private final int amount;
 
+    /**
+     * Constructor
+     * @param pizza Skal bruge en pizza
+     * @param size Skal bruge en pizza størrelse
+     * @param price Skal bruge en pris på pizzaen
+     * @param amount Skal bruge et ønsket antal af pizzaer.
+     */
     public OrderLine(Pizza pizza, Size size, double price,int amount){
         this.pizza = pizza;
         this.size = size;
@@ -125,22 +160,23 @@ final class OrderLine{
         this.amount = amount;
     }
 
-    public Pizza getPizza() {
-        return pizza;
-    }
+    //Getters
+    public Pizza getPizza() {return pizza;}
+    public Size getSize() {return size;}
+    public int getAmount() {return amount;}
 
-    public Size getSize() {
-        return size;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
+    /**
+     * Regner den totale pris ud for en ordre linje
+     * @return amount * pizza.getPrice(size)
+     */
     public double lineTotal(){
         return amount * pizza.getPrice(size);
     }
 
+    /**
+     * En pæn formattering af vores ordrelinje
+     * @return amount + "x " + pizza.getName() + " á " + price + " kr = " + lineTotal() + " kr"
+     */
     @Override
     public String toString(){
         return amount + "x " + pizza.getName() + " of " + price + " kr = " + lineTotal() + " kr";

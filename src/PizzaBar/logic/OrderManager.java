@@ -1,13 +1,21 @@
 package PizzaBar.logic;
 
+import PizzaBar.CompareByTime;
 import PizzaBar.products.Order;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OrderManager {
-
+    //ArrayList til at holde på alle vores ordrer.
     private final ArrayList<Order> orders = new ArrayList<>();
 
+    /**
+     * Laver en ny ordre og tilføjer den til vores ArrayList
+     * @param customerName Kundens navn
+     * @param phone Kundens tlf.
+     * @return Order o
+     */
     public Order createOrder(String customerName, String phone){
         //TODO: create new Order object based on user input, and add to list
         Order o = new Order(customerName, phone);
@@ -15,6 +23,10 @@ public class OrderManager {
         return o;
     }
 
+    /**
+     * Viser en oversigt over alle aktive ordre.
+     * Alle ordrer med status READY_FOR_PICKUP eller ACTIVE
+     */
     public void getActiveOrders(){
         //TODO: sort the list of active orders by time
         //TODO: loop through and print the list of active orders
@@ -29,9 +41,12 @@ public class OrderManager {
         }
     }
 
+    /**
+     * Bruges til at finde en specifik ordre ud fra et ordre id
+     * @param id Skal bruge et ordre id som input
+     * @return Order eller null hvis ordren ikke findes
+     */
     public Order findOrderById(int id){
-        //TODO: select an order Id
-        // loop through the list of orders to find selected order
         for(Order o : orders){
             if(o.getId() == id){
                 return o;
@@ -40,10 +55,11 @@ public class OrderManager {
         return null;
     }
 
+    /**
+     * Sletter en ordre fra vores ArrayList
+     * @param id Skal bruge et ordre id til at finde en ordre
+     */
     public void deleteOrder(int id){
-        //TODO: select an order by Id
-        //TODO: remove the selected order from the list
-        // use a try catch to validate if the selected order exists in the list
         try{
             Order o = findOrderById(id);
             orders.remove(o);
@@ -52,11 +68,21 @@ public class OrderManager {
         }
     }
 
+    /**
+     * Udskriver alle ordre uanset deres status
+     */
     public void printOrders(){
         System.out.println("\n=== ALL ORDERS ===");
+        sortByTime();
         for(Order o : orders){
             System.out.println(o);
             System.out.println("---------------------");
         }
     }
+
+    //sort list of orders by time
+    public void sortByTime(){
+        Collections.sort(orders, new CompareByTime());
+    }
+
 }
