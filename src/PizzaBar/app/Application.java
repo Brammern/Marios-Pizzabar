@@ -4,17 +4,18 @@ import PizzaBar.logic.*;
 import PizzaBar.helpers.*;
 import PizzaBar.products.*;
 
-import java.util.Scanner;
-
 public class Application {
     private final OrderManager manager = new OrderManager();
     private final OrderHelper helper = new OrderHelper(manager);
+    FileHandler fh = new FileHandler();
 
     /**
      * Metode til at køre vores applikation. Kalder relevante metoder ved hjælp af en switch.
      */
     public void run(){
         boolean run = true;
+        FileHandler.createFile(fh.getSoldFile());
+        FileHandler.createFile(fh.getAllOrdersFile());
         System.out.println();
         while(run) {
             System.out.println("\n=== ORDER MENU ===");

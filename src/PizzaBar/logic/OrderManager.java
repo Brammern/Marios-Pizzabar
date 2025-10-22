@@ -1,8 +1,10 @@
 package PizzaBar.logic;
 
+import PizzaBar.CompareByTime;
 import PizzaBar.products.Order;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OrderManager {
     //ArrayList til at holde på alle vores ordrer.
@@ -71,9 +73,16 @@ public class OrderManager {
      */
     public void printOrders(){
         System.out.println("\n=== ALL ORDERS ===");
+        sortByTime();
         for(Order o : orders){
             System.out.println(o);
             System.out.println("---------------------");
         }
     }
+
+    //sort list of orders by time
+    public void sortByTime(){
+        Collections.sort(orders, new CompareByTime());
+    }
+
 }
