@@ -1,6 +1,5 @@
 package PizzaBar.helpers;
 
-import PizzaBar.app.App;
 import PizzaBar.app.Application;
 import PizzaBar.products.Order;
 import PizzaBar.logic.*;
@@ -120,7 +119,8 @@ public class OrderHelper {
         }
 
         o.finish();
-        fh.writeToFile(fh.getFileName(), o.toString());
+        fh.writeToFile(fh.getSoldFile(), o.toString());
+        fh.writeToFile(fh.getAllOrdersFile(), o.toString());
         System.out.println("Order #" + id + " marked as finished :-)");
     }
 
@@ -143,6 +143,7 @@ public class OrderHelper {
         }
 
         o.cancel();
+        fh.writeToFile(fh.getAllOrdersFile(), o.toString());
         System.out.println("Order #" + id + " has been cancelled.");
     }
 

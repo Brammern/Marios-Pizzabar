@@ -1,7 +1,5 @@
 package PizzaBar.logic;
 // import anything necessary
-import PizzaBar.logic.*;
-import PizzaBar.products.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +9,8 @@ import java.util.Scanner;
 
 public class FileHandler {
     //class variable
-    private String fileName = "AllPizzasSold.csv";
+    private String soldFile = "AllPizzasSold.csv";
+    private String allOrdersFile = "AllPizzaOrders.csv";
 
     //method for creating new CSV file
     public static void createFile(String filename){
@@ -45,7 +44,7 @@ public class FileHandler {
             //close the writer to save changes
             writer.close();
 
-            System.out.println("The pizza order has been added to the csv file.");
+            System.out.println("The pizza order has been added to the " + filename + " file.");
 
         } catch (IOException e) {
             System.out.println("⚠️ An error occurred: " + e.getMessage());
@@ -73,7 +72,11 @@ public class FileHandler {
     }
 
     //getter for class variable
-    public String getFileName() {
-        return fileName;
+    public String getSoldFile() {
+        return soldFile;
+    }
+
+    public String getAllOrdersFile() {
+        return allOrdersFile;
     }
 }
