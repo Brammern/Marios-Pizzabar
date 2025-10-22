@@ -11,14 +11,14 @@ public class Order {
     public enum Status {ACTIVE, READY_FOR_PICKUP, FINISHED,CANCELLED}
 
     //Attributes for order
-    private static int id;
+    private int id;
     private static int nextId = 1;
     private String customerName;
-    private static LocalDateTime pickupTime;
+    private LocalDateTime pickupTime;
     private String phone;
     private Status status;
-    private static final List<OrderLine> lines = new ArrayList<>();
-    public static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private final List<OrderLine> lines = new ArrayList<>();
+    public final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     //Constructor
     public Order(String customerName, String phone){
@@ -30,9 +30,9 @@ public class Order {
     }
 
     //Getters
-    public static int getId() {return id;}
+    public int getId() {return id;}
     public String getCustomerName() {return customerName;}
-    public static LocalDateTime getPickupTime() {return pickupTime;}
+    public LocalDateTime getPickupTime() {return pickupTime;}
     public String getPhone() {return phone;}
     public Status getStatus() {return status;}
     public List<OrderLine> getLines() {return lines;}
@@ -40,8 +40,7 @@ public class Order {
     //Setters
     public void setId(int id) {this.id = id;}
     public void setCustomerName(String customerName) {this.customerName = customerName;}
-    //public void setPickupTime(LocalDateTime pickupTime) {this.pickupTime = pickupTime;}
-    public static void setPickupTimeInMinutes(int minutes) {pickupTime = LocalDateTime.now().plusMinutes(minutes);}
+    public void setPickupTimeInMinutes(int minutes) {this.pickupTime = LocalDateTime.now().plusMinutes(minutes);}
     public void setPhone(String phone) {this.phone = phone;}
     public void setStatus(Status status) {this.status = status;}
 
@@ -137,48 +136,3 @@ public class Order {
     }
 }
 
-/**
- * Indre klasse til linjer i en ordre
- */
-final class OrderLine{
-    private final Pizza pizza;
-    private final Size size;
-    private final double price;
-    private final int amount;
-
-    /**
-     * Constructor
-     * @param pizza Skal bruge en pizza
-     * @param size Skal bruge en pizza størrelse
-     * @param price Skal bruge en pris på pizzaen
-     * @param amount Skal bruge et ønsket antal af pizzaer.
-     */
-    public OrderLine(Pizza pizza, Size size, double price,int amount){
-        this.pizza = pizza;
-        this.size = size;
-        this.price = price;
-        this.amount = amount;
-    }
-
-    //Getters
-    public Pizza getPizza() {return pizza;}
-    public Size getSize() {return size;}
-    public int getAmount() {return amount;}
-
-    /**
-     * Regner den totale pris ud for en ordre linje
-     * @return amount * pizza.getPrice(size)
-     */
-    public double lineTotal(){
-        return amount * pizza.getPrice(size);
-    }
-
-    /**
-     * En pæn formattering af vores ordrelinje
-     * @return amount + "x " + pizza.getName() + " á " + price + " kr = " + lineTotal() + " kr"
-     */
-    @Override
-    public String toString(){
-        return amount + "x " + pizza.getName() + " of " + price + " kr = " + lineTotal() + " kr";
-    }
-}
