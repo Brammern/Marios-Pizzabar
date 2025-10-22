@@ -7,10 +7,12 @@ import PizzaBar.products.*;
 import java.util.Scanner;
 
 public class Application {
-    // TODO: Implement the application flow here
-    // TODO: call methods to run app
     private final OrderManager manager = new OrderManager();
     private final OrderHelper helper = new OrderHelper(manager);
+
+    /**
+     * Metode til at køre vores applikation. Kalder relevante metoder ved hjælp af en switch.
+     */
     public void run(){
         boolean run = true;
         System.out.println();

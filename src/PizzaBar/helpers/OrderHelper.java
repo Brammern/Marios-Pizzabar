@@ -12,11 +12,17 @@ import java.util.Scanner;
 public class OrderHelper {
     private final Scanner scanner = new Scanner(System.in);
     private final OrderManager manager;
-
+    private final FileHandler fh = new FileHandler();
+    //Constructor
     public OrderHelper(OrderManager manager){
         this.manager = manager;
     }
 
+    /**
+     * Metode til at lave en ordre ud fra bruger-input.
+     * Kalder de relevante metoder der skal bruges for at lave en ordre.
+     * Sørger for at validere brugerinput så programmet ikke crasher
+     */
     public void createOrder(){
         String name = readString("Type in the customers name (leave blank for walk-in): ");
         String phone = readPhone("Type in the customers phone number (leave blank for walk-in): ");
@@ -67,7 +73,7 @@ public class OrderHelper {
         }
     }
 
-    // Changes the status of the order depending on the choice of the switch.
+    // Ændrer status på en ordre ud fra et valg og en switch
     public void changeStatus(){
         int id = readInt("Input order-id: ");
 
@@ -100,6 +106,10 @@ public class OrderHelper {
         }
     }
 
+    /**
+     * Sætter ordrestatus på en ordre til READY_FOR_PICKUP
+     * @param id Skal bruge et id for en ordre
+     */
     private void markAsReady(int id){
         Order o = manager.findOrderById(id);
         if(o == null){
@@ -111,7 +121,10 @@ public class OrderHelper {
         System.out.println("Order #" + id + " marked as ready for pickup :-)");
     }
 
-    FileHandler fh = new FileHandler();
+    /**
+     * Sætter ordrestatus på en ordre til FINISHED og udskriver den til en CSV fil
+     * @param id Skal bruge et id for en ordre
+     */
     private void markAsFinished(int id){
         Order o = manager.findOrderById(id);
         if(o == null){
@@ -124,6 +137,10 @@ public class OrderHelper {
         System.out.println("Order #" + id + " marked as finished :-)");
     }
 
+    /**
+     * Sletter en ordre og fjerner den fra ordrelisten
+     * @param id Skal bruge et id for en ordre
+     */
     private void deleteOrder(int id){
         final Application app = new Application();
         boolean realityCheck = realityCheck("Are you sure you want to delete the order: #" + id + "?");
@@ -135,6 +152,10 @@ public class OrderHelper {
         }
     }
 
+    /**
+     * Sætter ordrestatus på en ordre til CANCELLED.
+     * @param id Skal bruge et id for en ordre
+     */
     private void cancelOrder(int id){
         Order o = manager.findOrderById(id);
         if(o == null){
@@ -146,13 +167,23 @@ public class OrderHelper {
         System.out.println("Order #" + id + " has been cancelled.");
     }
 
-    // Validation methods
+    //=== VALIDATION METODER ===
 
+    /**
+     * Læser en string fra brugeren
+     * @param prompt Den tekst som man skal bruge til at spørge brugeren om noget data.
+     * @return Returnerer scanner.nextLine()
+     */
     public String readString (String prompt) {
         System.out.print(prompt);
         return scanner.nextLine();
     }
 
+    /**
+     * Læser en integer og validerer om det er et gyldigt input fra brugeren
+     * @param prompt Den tekst der spørger brugeren om en int værdi
+     * @return Integer.parseInt(scanner.nextInt())
+     */
     public int readInt (String prompt) {
         while (true) {
             try {
@@ -166,6 +197,12 @@ public class OrderHelper {
         }
     }
 
+    /**
+     * Bruges til at læse inputtet til tlf nr. fra brugeren.
+     * Validerer om det er en String på 8 tal
+     * @param prompt Spørger brugeren om telefonnummer på kunden
+     * @return input eller WALK-IN
+     */
     private String readPhone (String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -180,6 +217,12 @@ public class OrderHelper {
         }
     }
 
+    /**
+     * En ekstra validering der bruges til at sikre at brugeren ikke kommer til at gøre noget,
+     * de ikke ville have gjort
+     * @param prompt Spørger brugeren en ekstra gang om de er sikre på at de vil foretage sig en bestemt handling
+     * @return true/false
+     */
     public boolean realityCheck(String prompt) {
         while (true) {
             System.out.print(prompt + " (y/n)");
