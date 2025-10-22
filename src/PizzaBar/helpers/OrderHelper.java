@@ -5,8 +5,9 @@ import PizzaBar.products.Order;
 import PizzaBar.logic.*;
 import PizzaBar.products.Pizza;
 import PizzaBar.products.Size;
-
+import java.io.IOException;
 import java.util.Scanner;
+
 
 public class OrderHelper {
     private final Scanner scanner = new Scanner(System.in);
@@ -27,7 +28,7 @@ public class OrderHelper {
         String phone = readPhone("Type in the customers phone number (leave blank for walk-in): ");
 
         System.out.println("Add pizzas (type 0 to cancel order):");
-
+        Order o = null;
         while(true){
             String pizzaName = readString("Pizza name: ");
             if(pizzaName.equals("0")) break;
@@ -40,16 +41,13 @@ public class OrderHelper {
             }
 
             System.out.print("Choose size (1=STANDARD, 2=FAMILYSIZE): ");
-            int sizeChoice = 0;
-            boolean valid = false;
-            while (!valid) {
+            int sizeChoice;
+            while (true) {
                 sizeChoice = readInt("");
-                if (sizeChoice == 1 || sizeChoice == 2) {
-                    valid = true;
-                } else {
-                    System.out.print("Invalid size choice. Try again: ");
-                }
+                if (sizeChoice == 1 || sizeChoice == 2) break;
+                System.out.print("Invalid size choice. Try again: ");
             }
+
             Size size = (sizeChoice == 2) ? Size.FAMILY : Size.STANDARD;
 
             System.out.print("Enter the desired amount of " + pizzaName + ": ");
@@ -59,19 +57,26 @@ public class OrderHelper {
                 System.out.println("Amount of pizzas can't be 0. Try again");
                 continue;
             }
-            boolean realityCheck = realityCheck("Do you want to add more pizzas to your order?");
-            if (realityCheck) {
-                manager.createOrder(name, phone);
-                Order.addLine(pizza, size, amount);
-            } else {
-                Order.addLine(pizza, size, amount);
-                int minutes = readInt("When do you wish to pickup your order? (in minutes): ");
-                Order.setPickupTimeInMinutes(minutes);
-                System.out.println("\nOrder #" + Order.getId() + " has been crated successfully." +
-                        "\nYour order will be ready at: " + Order.getPickupTime().format(Order.timeFormatter));
+
+            if (o == null) {
+                o = manager.createOrder(name, phone);
+            }
+            o.addLine(pizza, size, amount);
+
+            boolean morePizzas = realityCheck("Do you want to add more pizzas to your order?");
+            if (!morePizzas) {
                 break;
             }
         }
+
+        int minutes = readInt("Enter pickup time in minutes from now (0 for no pickup time): ");
+        while (minutes < 15) {
+            minutes = readInt("Pickup time must be at least 15 minutes. Please enter a valid pickup time in minutes: ");
+        }
+        o.setPickupTimeInMinutes(minutes);
+
+        System.out.println("\nOrder #" + o.getId() + " has been crated successfully." +
+                "\nYour order will be ready at: " + o.getPickupTime().format(o.timeFormatter));
     }
 
     // Ændrer status på en ordre ud fra et valg og en switch
@@ -134,8 +139,14 @@ public class OrderHelper {
         }
 
         o.finish();
-        fh.writeToFile(fh.getSoldFile(), o.toString());
-        fh.writeToFile(fh.getAllOrdersFile(), o.toString());
+        try {
+            fh.appendOrderFinished(o);
+            fh.appendOrderCreated(o);
+        } catch (IOException e) {
+            System.out.println("⚠️ CSV write error: " + e.getMessage());
+        }
+        //fh.writeToFile(fh.getSoldFile(), o.toString());
+        //fh.writeToFile(fh.getAllOrdersFile(), o.toString());
         System.out.println("Order #" + id + " marked as finished :-)");
     }
 
@@ -145,8 +156,8 @@ public class OrderHelper {
      */
     private void deleteOrder(int id){
         final Application app = new Application();
-        boolean realityCheck = realityCheck("Are you sure you want to delete the order: #" + id + "?");
-        if (realityCheck) {
+        boolean confirmDelete = realityCheck("Are you sure you want to delete the order: #" + id + "?");
+        if (confirmDelete) {
             Order o = manager.findOrderById(id);
             manager.deleteOrder(id);
             System.out.println("Order #" + id + " has been deleted successfully!");
@@ -156,6 +167,7 @@ public class OrderHelper {
 
     /**
      * Sætter ordrestatus på en ordre til CANCELLED.
+     * Skriver den opdaterede ordre til en CSV fil
      * @param id Skal bruge et id for en ordre
      */
     private void cancelOrder(int id){
@@ -164,9 +176,13 @@ public class OrderHelper {
             System.out.println("No order with id " + id);
             return;
         }
-
         o.cancel();
-        fh.writeToFile(fh.getAllOrdersFile(), o.toString());
+        try {
+            fh.appendOrderCreated(o);
+        } catch (IOException e) {
+            System.out.println("⚠️ CSV write error: " + e.getMessage());
+        }
+        //fh.writeToFile(fh.getAllOrdersFile(), o.toString());
         System.out.println("Order #" + id + " has been cancelled.");
     }
 
