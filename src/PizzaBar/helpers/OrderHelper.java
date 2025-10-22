@@ -21,9 +21,7 @@ public class OrderHelper {
         String name = readString("Type in the customers name (leave blank for walk-in): ");
         String phone = readPhone("Type in the customers phone number (leave blank for walk-in): ");
 
-        Order order = manager.createOrder(name, phone);
-
-        System.out.println("Add pizzas (type 0 to stop):");
+        System.out.println("Add pizzas (type 0 to cancel order):");
 
         while(true){
             String pizzaName = readString("Pizza name: ");
@@ -56,15 +54,17 @@ public class OrderHelper {
                 System.out.println("Amount of pizzas can't be 0. Try again");
                 continue;
             }
-            order.addLine(pizza, size, amount);
+            Order order = manager.createOrder(name, phone);
+            boolean realityCheck = realityCheck("Do you want to add more pizzas to your order?");
+            if (realityCheck) {
+                order.addLine(pizza, size, amount);
+            } else {
+                order.addLine(pizza, size, amount);
+                int minutes = readInt("When does the order have to get picked up (in minutes): ");
+                order.setPickupTimeInMinutes(minutes);
+                break;
+            }
         }
-
-        System.out.print("When does the order have to get picked up (in minutes): ");
-        int minutes = scanner.nextInt();
-        scanner.nextLine();
-
-        order.setPickupTimeInMinutes(minutes);
-
     }
 
     // Changes the status of the order depending on the choice of the switch.
