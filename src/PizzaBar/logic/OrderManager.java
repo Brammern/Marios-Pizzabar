@@ -1,10 +1,9 @@
 package PizzaBar.logic;
 
-import PizzaBar.CompareByTime;
 import PizzaBar.products.Order;
-
 import java.util.ArrayList;
 import java.util.Collections;
+
 
 public class OrderManager {
     //ArrayList til at holde på alle vores ordrer.
@@ -17,7 +16,6 @@ public class OrderManager {
      * @return Order o
      */
     public Order createOrder(String customerName, String phone){
-        //TODO: create new Order object based on user input, and add to list
         Order o = new Order(customerName, phone);
         orders.add(o);
         return o;
@@ -28,8 +26,6 @@ public class OrderManager {
      * Alle ordrer med status READY_FOR_PICKUP eller ACTIVE
      */
     public void getActiveOrders(){
-        //TODO: sort the list of active orders by time
-        //TODO: loop through and print the list of active orders
         System.out.println("=== ACTIVE ORDERS ===");
         for (Order o : orders){
             if(o.getStatus().equals(Order.Status.ACTIVE) || o.getStatus().equals(Order.Status.READY_FOR_PICKUP)){
@@ -80,7 +76,9 @@ public class OrderManager {
         }
     }
 
-    //sort list of orders by time
+    /**
+     * Sorterer ordrer i ArrayListen efter afhentningstidspunkt
+     */
     public void sortByTime(){
         Collections.sort(orders, new CompareByTime());
     }
