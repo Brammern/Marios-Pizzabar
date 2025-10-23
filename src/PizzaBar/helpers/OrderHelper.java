@@ -30,11 +30,20 @@ public class OrderHelper {
         System.out.println("Add pizzas (type 0 to cancel order):");
         Order o = null;
         while(true){
-            String pizzaName = readString("Pizza name: ");
-            if(pizzaName.equals("0")) break;
+            String pizzaInput = readString("Pizza name or id: ");
+            if(pizzaInput.equals("0")) {
+                System.out.println("Cancelling order creation.");
+                return;
+            }
 
+            Pizza pizza;
+            if (pizzaInput.matches("\\d+")) {
+                int pizzaId = Integer.parseInt(pizzaInput);
+                pizza = Pizza.findById(pizzaId);
+            } else {
+                pizza = Pizza.findByName(pizzaInput);
+            }
 
-            Pizza pizza = Pizza.findByName(pizzaName);
             if(pizza == null){
                 System.out.println("Pizza not found in menu.");
                 continue;
@@ -50,7 +59,7 @@ public class OrderHelper {
 
             Size size = (sizeChoice == 2) ? Size.FAMILY : Size.STANDARD;
 
-            System.out.print("Enter the desired amount of " + pizzaName + ": ");
+            System.out.print("Enter the desired amount of " + pizza.getName() + ": ");
             int amount = readInt("");
 
             if(amount <= 0){

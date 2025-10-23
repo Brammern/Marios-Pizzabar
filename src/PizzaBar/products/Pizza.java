@@ -47,6 +47,9 @@ public enum Pizza {
     //Getters
     public String getName() {return name;}
     public double getBasePrice() {return basePrice;}
+    public int getId() {
+        return this.ordinal() + 1;
+    }
 
     /**
      * Finder prisen på en pizza ud fra hvilken størrelse pizzaen har
@@ -59,7 +62,7 @@ public enum Pizza {
      * Metode til at printe et pænt pizza menukort skrevet i to kolonner.
      */
     public static void printMenu(){
-        System.out.println("=================================== Pizza Menukort ===================================\n");
+        System.out.println("================================== Pizza Menukort ==================================\n");
         Pizza[] pizzas = Pizza.values();
 
         for (int i = 0; i < pizzas.length; i += 2){
@@ -74,7 +77,7 @@ public enum Pizza {
 
             String col2 = "";
             if(p2 != null){
-                col2 = String.format("      %2d %-18s %6.2f / %6.2f kr",
+                col2 = String.format("\t%2d %-18s %6.2f / %6.2f kr",
                         i + 2,
                         p2.name,
                         p2.getPrice(Size.STANDARD),
@@ -92,6 +95,18 @@ public enum Pizza {
     public static Pizza findByName(String name) {
         for (Pizza p : values()) {
             if (p.getName().equalsIgnoreCase((name))) return p;
+        }
+        return null;
+    }
+
+    /**
+     * Finder en pizza i vores enum, ud fra et id
+     * @param id Skal bruge en id parameter
+     * @return Pizza, hvis der findes en med det id
+     */
+    public static Pizza findById(int id) {
+        for (Pizza p : values()) {
+            if (p.getId() == id) return p;
         }
         return null;
     }
