@@ -27,6 +27,7 @@ public class OrderManager {
      */
     public void getActiveOrders(){
         System.out.println("=== ACTIVE ORDERS ===");
+        sortByTime();
         for (Order o : orders){
             if(o.getStatus().equals(Order.Status.ACTIVE) || o.getStatus().equals(Order.Status.READY_FOR_PICKUP)){
                 System.out.println(o);
