@@ -67,72 +67,18 @@ public class FileHandler {
     }
 
     /**
-     * Statisk metode der opretter en fil hvis den ikke allerede eksisterer
-     * @param filename Navn på filen der skal oprettes
-     */
-    public static void createFile(String filename){
-        try {
-            File file = new File(filename);
-            if (file.createNewFile()) {
-                System.out.println("File created: " + file.getName());
-                System.out.println("Absolute path: " + file.getAbsolutePath());
-            } else {
-                System.out.println("File already exists at: " + file.getAbsolutePath());
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while creating the file.");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Metode der skriver indhold til en fil
-     * @param filename Navn på filen
-     * @param content Indhold der skal skrives til filen
-     */
-    public void writeToFile(String filename, String content) {
-        try {
-            FileWriter writer = new FileWriter(filename, true);
-            writer.write(content);
-            writer.close();
-            System.out.println("The pizza order has been added to the " + filename + " file.");
-        } catch (IOException e) {
-            System.out.println("⚠️ An error occurred: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Metode der læser en fil og returnere indholdet som en String
-     * @param filePath Sti til filen
-     * @return Indholdet af filen som en String
-     */
-    public String readFileAsString(String filePath){
-        StringBuilder fileContent = new StringBuilder();
-
-        try {
-            File file = new File(filePath);
-            Scanner scanner = new Scanner(file);
-
-            while (scanner.hasNextLine()) {
-                fileContent.append(scanner.nextLine()).append("\n");
-            }
-            scanner.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("⚠️ File not found: " + e.getMessage());
-        }
-        return fileContent.toString();
-    }
-
-    /**
      * Sikrer at filen eksisterer
      * @param path Sti til filen
      * @return true hvis filen er tom, ellers false
      */
     private boolean ensureFileAndCheckEmpty(Path path) throws IOException {
-        if (path.getParent() !=null) Files.createDirectories(path.getParent());
+        if (path.getParent() !=null) {
+            Files.createDirectories(path.getParent());
+            System.out.println("FileHandler: Created directories for path '" + path.getParent() + "'");
+        }
         if (!Files.exists(path)) {
             Files.createFile(path);
+            System.out.println("FileHandler: Created file '" + path + "'");
             return true;
         }
         return Files.size(path) == 0;
