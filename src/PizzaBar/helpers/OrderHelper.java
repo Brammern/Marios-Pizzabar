@@ -1,6 +1,5 @@
 package PizzaBar.helpers;
 
-import PizzaBar.app.Application;
 import PizzaBar.products.Order;
 import PizzaBar.logic.*;
 import PizzaBar.products.Pizza;
@@ -164,13 +163,11 @@ public class OrderHelper {
      * @param id Skal bruge et id for en ordre
      */
     private void deleteOrder(int id){
-        final Application app = new Application();
         boolean confirmDelete = realityCheck("Are you sure you want to delete the order: #" + id + "?");
         if (confirmDelete) {
             Order o = manager.findOrderById(id);
             manager.deleteOrder(id);
             System.out.println("Order #" + id + " has been deleted successfully!");
-            app.run();
         }
     }
 
