@@ -153,8 +153,6 @@ public class OrderHelper {
         } catch (IOException e) {
             System.out.println("⚠️ CSV write error: " + e.getMessage());
         }
-        //fh.writeToFile(fh.getSoldFile(), o.toString());
-        //fh.writeToFile(fh.getAllOrdersFile(), o.toString());
         System.out.println("Order #" + id + " marked as finished :-)");
     }
 
@@ -188,7 +186,6 @@ public class OrderHelper {
         } catch (IOException e) {
             System.out.println("⚠️ CSV write error: " + e.getMessage());
         }
-        //fh.writeToFile(fh.getAllOrdersFile(), o.toString());
         System.out.println("Order #" + id + " has been cancelled.");
     }
 
