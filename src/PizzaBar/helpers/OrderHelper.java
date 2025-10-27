@@ -145,7 +145,10 @@ public class OrderHelper {
             System.out.println("No order with id " + id);
             return;
         }
-
+        if (o.getStatus() == Order.Status.FINISHED) {
+            System.out.println("Order #" + id + " already marked as finished. Skipping...");
+            return;
+        }
         o.finish();
         try {
             fh.appendOrderFinished(o);
