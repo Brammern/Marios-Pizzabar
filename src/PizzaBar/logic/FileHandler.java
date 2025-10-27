@@ -2,11 +2,9 @@ package PizzaBar.logic;
 
 import PizzaBar.products.*;
 import java.io.*;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class FileHandler {
