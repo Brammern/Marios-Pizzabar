@@ -25,10 +25,10 @@ public class OrderHelper {
     public void createOrder(){
         String name = readString("Type in the customers name (leave blank for walk-in): ");
         String phone = readPhone("Type in the customers phone number (leave blank for walk-in): ");
-
-        System.out.println("Add pizzas (type 0 to cancel order):");
         Order o = null;
         while(true){
+            Pizza.printMenu();
+            System.out.println("Add pizzas (type 0 to cancel order):");
             String pizzaInput = readString("Pizza name or id: ");
             if(pizzaInput.equals("0")) {
                 System.out.println("Cancelling order creation.");
